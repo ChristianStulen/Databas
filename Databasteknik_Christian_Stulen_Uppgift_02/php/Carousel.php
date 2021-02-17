@@ -2,114 +2,98 @@
 
 /** 
  * Klassen Carousel innehåller funktioner som:
- * hämtar API (JSON), omvandlar till en array och skriver ut valda bilder till en bildkarusell
+ * hämtar data från databas, omvandlar till array och visar data
  * 
  * Annika Rengfelt
  * https://github.com/adrowsy
- * KVALIT20 - Backend - Uppgift 3
- * 2021-01-27
+ * KVALIT20 - Databasteknik - Uppgift 2
+ * 2021-02-12
  * */
+
+require_once("database/connection.php");
+$conn->exec("USE $dbName");
 
 class Carousel
 {
 
-  public static $url = "http://localhost/Databas/Databasteknik_Christian_Stulen_Uppgift_02/img";
-
   public static function main()
   {
+    $tblName = "products"; // Tabellen som ska hämtas och visas
+
     try {
-      $array = self::getData(self::$url);
-      self::viewData($array);
+      $products = self::getArrayFromTable($tblName);
+      self::viewData($products);
     } catch (Exception $e) {
-      echo $e->getMessage();
+      echo "<div class='alert alert-warning'>Error: " . $e->getMessage() . "</div>";
+      exit();
     }
   }
 
-  public static function getData($url)
+  /**
+   * Get data from a table
+   * Returns Assoc. Array
+   */
+
+  public static function getArrayFromTable($tblName)
   {
-    $json = @file_get_contents($url); // @ anger att eget felmeddelande ska visas
-    if (!$json)
-      throw new Exception("<div class='alert alert-danger'>Cannot access $url</div>");
-    return json_decode($json, true); //True ger associativ array
+    global $conn; // Hämtas från database.php
+    $stmt = $conn->prepare("SELECT * FROM $tblName ");
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
   }
 
-  public static function getFirstPara($string)
-  {
-    $string = substr($string, 0, strpos($string, '.')) . '!';
-    return $string;
-  }
   public static function viewData($array)
   {
-    $img_dir = "http://localhost/Databas/Databasteknik_Christian_Stulen_Uppgift_02/img";
-    $firstimg = $array[2]['image_lg'];
-    $secondimg = $array[9]['image_lg'];
-    $thirdimg = $array[5]['image_lg'];
-    $fourthimg = $array[6]['image_lg'];
 
-    $firstcap = $array[2]['name'];
-    $secondcap = $array[9]['name'];
-    $thirdcap = $array[5]['name'];
-    $fourthcap = $array[6]['name'];
+    $img_dir = "http://localhost/Databas/Databasteknik_Christian_Stulen_Uppgift_02/img/";
 
-    $firstdes = self::getFirstPara($array[2]['description']);
-    $seconddes = self::getFirstPara($array[9]['description']);
-    $thirddes = self::getFirstPara($array[5]['description']);
-    $fourthdes = self::getFirstPara($array[6]['description']);
+    # Anger index för de bilder som ska visas i karusellen
+    $firstImg = $array[3]['image_lg'];
+    $firstAlt = $array[3]['name'];
 
+    $secondImg = $array[6]['image_lg'];
+    $secondAlt = $array[6]['name'];
+
+    $thirdImg = $array[9]['image_lg'];
+    $thirdAlt = $array[9]['name'];
+
+    # CSS-klassen d-none döljer karusell från små skärmar 
+    # Mer info https://getbootstrap.com/docs/4.0/components/carousel/
 
     $carousel = "
-
         <div class='col-md-12 d-none d-md-block'>
-        
-        <div id='carouselExampleIndicators' class='carousel slide my-4' data-ride='carousel'>
-        <ol class='carousel-indicators'>
-          <li data-target='#carouselExampleIndicators' data-slide-to='0' class='active'></li>
-          <li data-target='#carouselExampleIndicators' data-slide-to='1'></li>
-          <li data-target='#carouselExampleIndicators' data-slide-to='2'></li>
-          <li data-target='#carouselExampleIndicators' data-slide-to='3'></li>
-        </ol>
-        <div class='carousel-inner' role='listbox'>
-          <div class='carousel-item active'>
-            <img class='d-block img-fluid' src='$img_dir/$firstimg' alt='$firstimg'>
-            <div class='carousel-caption d-none d-md-block'>
-        <h5>$firstcap</h5>
-        <p>$firstdes</p>
-      </div>
+
+        <div id='carouselExampleIndicators' class='carousel slide my-4 ' data-ride='carousel'>
+          <ol class='carousel-indicators'>
+            <li data-target='#carouselExampleIndicators' data-slide-to='0' class='active'></li>
+            <li data-target='#carouselExampleIndicators' data-slide-to='1'></li>
+            <li data-target='#carouselExampleIndicators' data-slide-to='2'></li>
+          </ol>
+
+          <div class='carousel-inner' role='listbox'>
+            <div class='carousel-item active'>
+              <img class='d-block img-fluid' src='$img_dir/$firstImg' alt='$firstAlt'>
+            </div>
+            <div class='carousel-item'>
+              <img class='d-block img-fluid' src='$img_dir/$secondImg' alt='$secondAlt'>
+            </div>
+            <div class='carousel-item'>
+              <img class='d-block img-fluid' src='$img_dir/$thirdImg' alt='$thirdAlt'>
+            </div>
           </div>
-          
-          <div class='carousel-item'>
-            <img class='d-block img-fluid' src='$img_dir/$secondimg' alt='$secondimg'>
-            <div class='carousel-caption d-none d-md-block'>
-        <h5>$secondcap</h5>
-        <p>$seconddes</p>
-      </div>
-          </div>
-          <div class='carousel-item'>
-            <img class='d-block img-fluid' src='$img_dir/$thirdimg' alt='$thirdimg'>
-            <div class='carousel-caption d-none d-md-block'>
-        <h5>$thirdcap</h5>
-        <p>$thirddes</p>
-      </div>
-          </div>
-          <div class='carousel-item'>
-            <img class='d-block img-fluid' src='$img_dir/$fourthimg' alt='$fourthimg'>
-            <div class='carousel-caption d-none d-md-block'>
-        <h5>$fourthcap</h5>
-        <p>$fourthdes</p>
-      </div>
-          </div>
+          <a class='carousel-control-prev' href='#carouselExampleIndicators' role='button' data-slide='prev'>
+            <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+            <span class='sr-only'>Previous</span>
+          </a>
+          <a class='carousel-control-next' href='#carouselExampleIndicators' role='button' data-slide='next'>
+            <span class='carousel-control-next-icon' aria-hidden='true'></span>
+            <span class='sr-only'>Next</span>
+          </a>
         </div>
-        <a class='carousel-control-prev' href='#carouselExampleIndicators' role='button' data-slide='prev'>
-          <span class='carousel-control-prev-icon' aria-hidden='true'></span>
-          <span class='sr-only'>Previous</span>
-        </a>
-        <a class='carousel-control-next' href='#carouselExampleIndicators' role='button' data-slide='next'>
-          <span class='carousel-control-next-icon' aria-hidden='true'></span>
-          <span class='sr-only'>Next</span>
-        </a>
       </div>
-    </div>
-";
+      ";
+
     echo $carousel;
   }
 }

@@ -4,42 +4,37 @@
 //update or delete the data. There is also a delete all option. 
 require_once("../database/connection.php");
 
-$stmt = $conn->prepare("SELECT * FROM customers");
+$stmt = $conn->prepare("SELECT * FROM messages");
 $stmt->execute();
 
 $result = $stmt->fetchAll();
 $table = " <table class='table'>";
 $table .= "
    
-    <tr>
-        <th>Customer ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Street</th>
-        <th>Zip</th>
-        <th>City</th>
-        <th>Tel</th>
-        <th>Email</th>
-
-        <th>Admin || <a href='/Databas\Databasteknik_Christian_Stulen_Uppgift_02\admin\delete.php?customerid=alla'>Ta bort allt</a></th>
-    </tr>";
+<tr>
+<th>ID</th>
+<th>Mottagare</th>
+<th>Namn</th>
+<th>Epost</th>
+<th>Meddelande</th>
+<th>Skickat</th>
+<th>Admin || <a href='/Databas\Databasteknik_Christian_Stulen_Uppgift_02\admin\delete.php?id=alla'>Ta bort allt</a></th>
+</tr>";
 
 foreach($result as $key => $value){
 
-    
+
 $table .= "
-    <tr>
-        <td>$value[customerid]</td>
-        <td>$value[firstname]</td>
-        <td>$value[lastname]</td>
-        <td>$value[str_address]</td>
-        <td>$value[zip]</td>
-        <td>$value[city]</td>
-        <td>$value[tel]</td>
-        <td>$value[email]</td>
-        <td>
-            <a href='/Databas\Databasteknik_Christian_Stulen_Uppgift_02\admin\update.php?customerid=$value[customerid]'>Uppdatera</a> || 
-            <a href='/Databas\Databasteknik_Christian_Stulen_Uppgift_02\admin\delete.php?customerid=$value[customerid]'>Ta bort</a>
+<tr>
+<td>$value[id]</td>
+<td>$value[mottagare]</td>
+<td>$value[namn]</td>
+<td>$value[epost]</td>
+<td>$value[meddelande]</td>
+<td>$value[time]</td>
+<td>
+            <a href='/Databas\Databasteknik_Christian_Stulen_Uppgift_02\admin\update.php?customerid=$value[id]'>Uppdatera</a> || 
+            <a href='/Databas\Databasteknik_Christian_Stulen_Uppgift_02\admin\delete.php?customerid=$value[id]'>Ta bort</a>
         </td>
      </tr>";
 
