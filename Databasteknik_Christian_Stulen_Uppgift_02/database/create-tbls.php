@@ -103,7 +103,7 @@ $conn->exec(
             mottagare VARCHAR(50),
             namn VARCHAR(50) NOT NULL,
             epost VARCHAR(50) NOT NULL,
-            meddelande VARCHAR(50) NOT NULL,
+            meddelande VARCHAR(255),
             time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id)
         )"

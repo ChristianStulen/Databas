@@ -1,18 +1,16 @@
 <?php
 
 /** 
- * Klassen Products innehåller funktioner som:
+ * Klassen getProducts innehåller funktioner som:
  * hämtar data från databas, omvandlar till array och visar data
- * - Visa felmeddelande om:
- * -- databas saknas
  * 
  * Annika Rengfelt
  * https://github.com/adrowsy
  * KVALIT20 - Databasteknik - Uppgift 2
- * 2021-02-12
+ * 2021-02-17
  * */
 
-require_once("database/connection.php");
+require_once('database/connection.php');
 $conn->exec("USE $dbName");
 
 class getProducts
@@ -63,61 +61,70 @@ class getProducts
     foreach ($array as $key => $value) {
       if ($shown < $show) {
 
+        $productid = $value['productid'];
         $img_dir = "http://localhost/Databas/Databasteknik_Christian_Stulen_Uppgift_02/img";
         $image = $value['image'];
         $name = $value['name'];
         $price = $value['price'];
+        $price = number_format($price, 0, ',', ' ');
         $description = $value['description'];
         $inStock = $value['in_stock'];
-        $productid = $value['productid'];
 
-        $product .= "
-            <div class='col-md-6 mb-4'>
-              <div class='card h-100'>
-                <div>
-                  <div class='icon-float right'>
-                    <i class='fas fa-asterisk text-white' style='font-size: 2rem;'></i>
-                  </div><!-- ./ icon -->
+        $product .= <<<HTML
+        
+        <div class='col-md-6 mb-4'>
+          <div class='card h-100'>
+            <div>
+              <div class='icon-float right'>
+                <i class='fas fa-asterisk text-white' style='font-size: 2rem;'></i>
+              </div><!-- ./ icon -->
                                         
-                  <img src='$img_dir/$image' alt='$image' style='' class='card-img-top img-fluid'>
-                </div><!-- ./ img -->
+              <img src='$img_dir/$image' alt='$image' style='' class='card-img-top img-fluid'>
+            </div><!-- ./ img -->
 
-                <div class='card-body'>
-                  <div class='row'>
-                    <div class='col'>
-                      <h2 class='card-title'><a href='#'>$name</a></h2>
-                    </div>
-
-                    <div class='col-lg-auto'>
-                      <h4 class='text-lg-right'>" . number_format($price, 0, ',', ' ') . " SEK</h4>
-                    </div>
-                  </div>
-
-                  <p class='card-text text-right'>Lediga platser: $inStock</p>
-                  <p class='card-text mt-3'>$description</p>
-
-                  <div class=''>
-                  <form>
-                  <div class='form-row align-items-end'>
-                  <a href='http://localhost/Databas/Databasteknik_Christian_Stulen_Uppgift_02/order.php?productid=$productid' class='btn btn-lg btn-success mb-2 btn-block'>Boka</a>
-                  "
-                // Legal notice
-                . "
-                <div class='col-12'>
-                  <p class='card-text small'>
-                  Genom att klicka på \"Boka\" bekräftar jag att jag har läst och godkänt 
-                  <a href='#' class='alert-link text-primary'>Allmänna villkor</a>, 
-                  <a href='#' class='alert-link text-primary'>Dataskyddsinformation</a> och 
-                  <a href='#' class='alert-link text-primary'>Cookiepolicy</a>
-                </div>"
-                // ./ Legal notice
-                . "
+            <div class='card-body'>
+              <div class='row'>
+                <div class='col'>
+                  <h2 class='card-title'><a href='#'>$name</a></h2>
                 </div>
-                  </form>
+
+                <div class='col-lg-auto'>
+                  <h4 class='text-lg-right'>$price SEK</h4>
+                </div>
+              </div>
+
+              <p class='card-text text-right'>Lediga platser: $inStock</p>
+              <p class='card-text mt-3'>$description</p>
+
+              <!-- Booking form -->
+              <div class=''>
+                <form action='order.php' method='get'>
+                    <div class='form-row align-items-end'>
+                      <input type='hidden' name='productid' value='$productid'>
+HTML;
+
+        if ($inStock > 0) {
+          $product .= "<button type='submit' class='btn btn-lg btn-success mb-2 btn-block'>Boka</button>";
+        } else {
+          $product .= "<button disabled type='submit' class='btn btn-lg btn-warning mb-2 btn-block'>Slutsåld</button>";
+        }
+
+        $product .= <<<HTML
+                    <!-- Legal notice -->
+                    <div class='col-12'>
+                      <p class='card-text small'>
+                      Genom att klicka på "Boka" bekräftar jag att jag har läst och godkänt 
+                      <a href='#' class='alert-link text-primary'>Allmänna villkor</a>, 
+                      <a href='#' class='alert-link text-primary'>Dataskyddsinformation</a> och 
+                      <a href='#' class='alert-link text-primary'>Cookiepolicy</a>
+                    </div> <!--./ Legal notice-->
                   </div>
-                </div> <!-- ./ card-body -->
-              </div> <!-- ./ card -->
-            </div> <!-- ./ col -->";
+                </form>
+              </div> <!-- ./ booking form -->
+            </div> <!-- ./ card-body -->
+          </div> <!-- ./ card -->
+        </div> <!-- ./ col -->
+        HTML;
 
         $shown++;
       }
@@ -126,6 +133,4 @@ class getProducts
 
     echo $product;
   }
-
-
 }

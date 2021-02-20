@@ -7,7 +7,7 @@
  * Annika Rengfelt
  * https://github.com/adrowsy
  * KVALIT20 - Databasteknik - Uppgift 2
- * 2021-02-12
+ * 2021-02-17
  * */
 
 require_once("database/connection.php");
@@ -46,7 +46,7 @@ class Carousel
   public static function viewData($array)
   {
 
-    $img_dir = "http://localhost/Databas/Databasteknik_Christian_Stulen_Uppgift_02/img/";
+    $img_dir = "http://localhost/Databas/Databasteknik_Christian_Stulen_Uppgift_02/img";
 
     # Anger index för de bilder som ska visas i karusellen
     $firstImg = $array[3]['image_lg'];
@@ -61,7 +61,7 @@ class Carousel
     # CSS-klassen d-none döljer karusell från små skärmar 
     # Mer info https://getbootstrap.com/docs/4.0/components/carousel/
 
-    $carousel = "
+    $carousel = <<<HTML
         <div class='col-md-12 d-none d-md-block'>
 
         <div id='carouselExampleIndicators' class='carousel slide my-4 ' data-ride='carousel'>
@@ -92,7 +92,7 @@ class Carousel
           </a>
         </div>
       </div>
-      ";
+      HTML;
 
     echo $carousel;
   }
