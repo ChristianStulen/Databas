@@ -5,7 +5,6 @@ require_once("database/connection.php");
 require_once("php/getProducts.php");
 
 $conn->exec("USE $dbName");
-//echo "<code>database: $dbName selected</code><br>";
 
 $productid = $_GET['productid'];
 $stmt = $conn->prepare("SELECT * FROM products WHERE productid = :productid");
@@ -168,16 +167,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':customerid', $customerid);
     $stmt->bindParam(':ordertime', $ordertime);
 
-    $stmt->execute(); ?>
+    $stmt->execute(); 
 
-    <!--Meddelar att ordern är lagd-->
-    <html>
-    <script>        
-    alert("Ordern är lagd");
-    </script>
-
-    </html>
-<?php
+    //Meddelar att ordern är lagd
+    $fullName = $firstname .' ' . $lastname;
+    header("Location: confirm.php?name=$fullName&product=$name&price=$price&email=$email");
 }
 
 require_once('terms.php');
