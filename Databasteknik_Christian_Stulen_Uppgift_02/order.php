@@ -1,11 +1,19 @@
 <?php
+/***************************************
+ * 
+ *                ORDER
+ *  När en orderknapp trycks leds användaren till denna sida.
+ *  Användaren fyller i sina uppgifter och eposten jämförs 
+ *  med existerande kunder i customers tabellen. Om eposten redan finns används det
+ *  existerande kundnummret annars skapas en ny kund i customers.   
+ *  Kund id sparas tillsammans med produkt id som en ny order i orders tabellen.  
+ * 
+ ***************************************/
 require_once("header.php");
 //Hämtar databasen samt id på produkten med hjälp av GET 
 require_once("database/connection.php");
-require_once("php/getProducts.php");
 
 $conn->exec("USE $dbName");
-
 $productid = $_GET['productid'];
 $stmt = $conn->prepare("SELECT * FROM products WHERE productid = :productid");
 $stmt->bindParam(':productid', $productid);
@@ -150,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':email', $email);
     $stmt->execute();
 
-    //Hämtar senast inlagd kund, den som är längst ner på listan
+    //Sorterar efter ordernr och tar den nedersta (senaste) ordern. 
     $stmt = $conn->prepare("SELECT * FROM customers ORDER BY customerid DESC LIMIT 1");
     $stmt->execute();
     $result = $stmt->fetch();

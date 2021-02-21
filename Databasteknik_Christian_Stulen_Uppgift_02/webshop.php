@@ -1,7 +1,6 @@
 <?php
 require_once('php/getProducts.php');
 require_once('php/Carousel.php');
-// require_once("database/create.php"); // Återställer databas, skapar tabeller och läser in data
 require_once('header.php');
 ?>
 

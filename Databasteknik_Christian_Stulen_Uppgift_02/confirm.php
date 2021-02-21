@@ -1,13 +1,23 @@
 <?php
+/***************************************
+ * 
+ *                CONFIRM
+ *     Tar fram senaste ordern och anbänder GET funktioner 
+ *     för att läsa in namn, epost och pris.
+ *     Detta presenteras sedan för användaren.
+ * 
+ ***************************************/
 require_once("header.php");
 require_once("database/connection.php");
 
+//Sorterar efter ordernr och tar den nedesta (senaste) ordern. 
 $conn->exec("USE $dbName");
 $stmt = $conn->prepare("SELECT * FROM orders ORDER BY orderid DESC LIMIT 1");
     $stmt->execute();
     $result = $stmt->fetch();
     $orderid = $result['orderid'];
 ?>
+<!-- Läser av värderna på name/price/email ur url:en med GET -->
 <div class="container">
     <div class="row mb-5">
       <div class="col-12">
