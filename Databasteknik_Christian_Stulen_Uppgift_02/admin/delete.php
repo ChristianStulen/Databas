@@ -1,10 +1,10 @@
+  
 <?php
 
 /***************************************
  * 
  *                DELETE
- *          Tar bort ett eller flera 
- *              meddelanden
+ *          Ta bort meddelanden
  * 
  ***************************************/
 

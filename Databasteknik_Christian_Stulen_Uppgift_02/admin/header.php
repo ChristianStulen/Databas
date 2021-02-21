@@ -17,12 +17,15 @@ require_once("../database/connection.php");
 
   <title>TripÆ[d]ventüre</title>
 
+  
   <!-- https://bootswatch.com/solar/ -->
   <link href="../vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
   <link href="../css/shop-homepage.css" rel="stylesheet">
 
+  <!-- Script for admin page https://jqueryui.com/tabs/-->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>

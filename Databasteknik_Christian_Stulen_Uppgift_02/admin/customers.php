@@ -2,8 +2,8 @@
 
 /****************************************
  * 
- *                CUSTOMERS
- * Läs tabellen customers från databasen
+ *                READ
+ * Läs tabellen meddelanden från databasen
  * Presentera resultatet i en HTML-tabell
  * 
  ***************************************/
@@ -20,6 +20,8 @@ $stmt = $conn->prepare("SELECT * FROM $tblName");
 $stmt->execute();
 
 // Hämta alla rader som finns i contacts
+// fetchAll()
+// Returns an array containing all of the result set rows
 $result = $stmt->fetchAll();
 
 echo <<<HTML
@@ -84,7 +86,7 @@ if ($items > 0) {
     <div class="row">
         <div class="col-12">
             <div class="alert alert-info pb-1" role="alert">
-                <p>Det finns inga ordrar</p>
+                <p>Det finns inga kunder</p>
             </div>
         </div>
     </div><!-- ./row -->
