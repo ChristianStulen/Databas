@@ -103,8 +103,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div> <!-- /.contact -->
 
-        <!-- About us -->
-        <div>
+    <!-- About us -->
+    <div>
         <div class="row">
             <div class="col-12">
                 <h1 class="sectionHeading">Om oss</h1>

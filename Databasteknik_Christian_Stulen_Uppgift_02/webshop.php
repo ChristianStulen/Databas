@@ -4,34 +4,34 @@ require_once('php/Carousel.php');
 require_once('header.php');
 ?>
 
-  <!-- Page Content -->
-  <div class="container">
+<!-- Page Content -->
+<div class="container">
 
-    <!-- Carousel -->
-    <div class="row">
-      <?php Carousel::main(); ?>
+  <!-- Carousel -->
+  <div class="row">
+    <?php Carousel::main(); ?>
+  </div>
+  <!-- /.carousel -->
+
+  <!-- Products -->
+  <div class="row">
+
+    <div class="col-12">
+      <h1 id="aktuellt" class="sectionHeading">Aktuella erbjudanden</h1>
     </div>
-    <!-- /.carousel -->
 
-    <!-- Products -->
-    <div class="row">
-
-      <div class="col-12">
-        <h1 id="aktuellt" class="sectionHeading">Aktuella erbjudanden</h1>
-      </div>
-
-      <div class="col">
-        <?php getProducts::main(); ?>
-      </div>
-
+    <div class="col">
+      <?php getProducts::main(); ?>
     </div>
-    <!-- /.products -->
 
   </div>
-  <!-- /.container -->
+  <!-- /.products -->
+
+</div>
+<!-- /.container -->
 
 
 <?php
-  require_once('terms.php');
-  require_once('footer.php');
+require_once('terms.php');
+require_once('footer.php');
 ?>

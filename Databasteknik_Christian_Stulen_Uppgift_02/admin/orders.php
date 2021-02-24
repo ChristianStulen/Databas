@@ -3,7 +3,7 @@
 /****************************************
  * 
  *                READ
- * Läs tabellen meddelanden från databasen
+ * Läs tabellen från databasen
  * Presentera resultatet i en HTML-tabell
  * 
  ***************************************/
@@ -19,8 +19,6 @@ $stmt = $conn->prepare("SELECT * FROM $tblName");
 // Kör SQL-satsen
 $stmt->execute();
 
-// Hämta alla rader som finns i contacts
-// fetchAll()
 // Returns an array containing all of the result set rows
 $result = $stmt->fetchAll();
 

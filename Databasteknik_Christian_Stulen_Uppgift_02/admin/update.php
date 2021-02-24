@@ -1,4 +1,7 @@
 <?php
+// OBS!! Behövs ej, sparad bara för vidare utveckling skulle önskas
+
+
 require_once ("../header.php");
 require_once ("../database/connection.php");
 //GETs the id and then find the relevant data from the database.

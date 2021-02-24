@@ -9,18 +9,6 @@ require_once('connection.php'); // Hämta $conn
 
 $msg = "<p>";
 
-/*
-// Ta först bort databasen!
-$conn->exec("DROP DATABASE IF EXISTS $dbName");
-$msg .= "<code>database: $dbName deleted</code><br>";
-
-// Skapa en ny databas
-$conn->exec("CREATE DATABASE IF NOT EXISTS $dbName
-             CHARACTER SET utf8
-             COLLATE utf8_swedish_ci;");
-$msg .= "<code>database: $dbName created</code><br>";
-*/
-
 // Välj databasen
 $conn->exec("USE $dbName");
 $msg .= "<code>database: $dbName selected</code><br>";
@@ -54,7 +42,7 @@ $conn->exec(
             str_address VARCHAR(50) NOT NULL,
             zip VARCHAR(10) NOT NULL,
             city VARCHAR(50) NOT NULL,
-            tel VARCHAR(10) NOT NULL,
+            tel VARCHAR(20) NOT NULL,
             email VARCHAR(100) NOT NULL,
             PRIMARY KEY (customerid)
         )"

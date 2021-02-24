@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Script som 
  * - återställer och skapar databas
